@@ -1,0 +1,205 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                              %
+% Dean Johnson                                                 %
+% ECE351                                                       %
+% Lab 7                                                      %
+% 3/1/2022                                                    %
+%                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% DOCUMENT PREAMBLE %%%
+\documentclass[12pt]{report}
+\usepackage[english]{babel}
+%\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeblue}{rgb}{0,0,0.95}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codegreen},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+
+\title{Lab 7}								
+% Title
+\author{ Dean Johnson}						
+% Author
+\date{3/1/2022}
+% Date
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\centering
+    \vspace*{0.5 cm}
+   % \includegraphics[scale = 0.075]{bsulogo.png}\\[1.0 cm]	% University Logo
+\begin{center}    \textsc{\Large   ECE 351 - Section \#53 }\\[2.0 cm]	\end{center}% University Name
+	\textsc{\Large Block Diagrams and System Stability}\\[0.5 cm]				% Course Code
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft} \large
+		%	\emph{Submitted To:}\\
+		%	Name\\
+          % Affiliation\\
+           %contact info\\
+			\end{flushleft}
+			\end{minipage}~
+			\begin{minipage}{0.4\textwidth}
+            
+			\begin{flushright} \large
+			\emph{Submitted By :} \\
+			Dean Johnson  
+		\end{flushright}
+           
+	\end{minipage}\\[2 cm]
+	
+%	\includegraphics[scale = 0.5]{PICMathLogo.png}
+    
+    
+    
+    
+	
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thesection}{\arabic{section}}
+\section{Introduction}
+    The goal of this lab is to utilize hand calculation and python to become familiar with Laplace transform block diagrams and transfer functions and discuss stability in a
+closed-loop system.
+\newline \newline The GitHub link: \href{https://github.com/CDJohnson279}{Github Lab 7}. 
+
+\section{Methodology}
+For the first part of the lab we are given a block diagram, with three subsequent transfer functions. for the first task we are asked to write each of these transfer functions in factored form and identify the poles and zeroes for each. These hand calculated equations are shown below in the \textbf{Results} section. These values are then compared to the poles and zeros found using the tf2zpk function from Scipy. Using the block diagram the overall transfer function H(s) is calculated. The step response is then plotted using the convolve operation.
+For part two the closed loop transfer function for the block diagram is solved and analyzed symbolically. Next the convolve and tf2zpk functions are used with the symbolic variables to determined the the complete transfer function equation. This is then plotted as shown below in the \textbf{Results} section.
+
+
+\section{Equations}
+\textbf{Part 1}
+Factored Transfer Functions:
+$$ G(s) = \frac{s+9}{(s-8)(s+2)(s+4)} $$
+$$ A(s) = \frac{s+4}{(s+3)(s+1)} $$\newline
+$$ B(s) = (s+1)(s+14)$$
+Total Transfer Function Equation:
+$$H_T(s) = \frac{s+9}{(s-1)(s+2)(s+37)(s+82)(s+48)}$$
+\newpage
+\textbf{Part 2}
+\newline 
+Symbolic transfer function:
+$$H_T(s) = \frac{numG*numA}{(denA*denG)+(denA*numB*numG)}$$
+\newline
+With calculated Values:
+$$H_T(s) = \frac{(s+1)(s+13)(s+36)}{(s+2)(s+41)(s+500)(s+2995)(s+6878)(s+4344)}$$
+
+\newpage
+\section{Results}
+\textbf{Part 1}\newline
+Factor results from python functions.
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=8cm]{Part 1.png}
+    \caption{Poles and Zeros for Part 1.}
+    \label{fig:Part 1.png}
+\end{figure}\newline
+Plot of transfer function:
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[height = 6.6cm]{Part 1 Transfer Function.png}
+    \caption{Transfer Function}
+    \label{fig:Part 1 Transfer Function.png}
+\end{figure}
+\newpage
+\textbf{Part 2}
+\newline
+Completed closed loop transfer function plot: 
+\begin{figure}[htp]
+    \centering
+    \includegraphics[height = 6.6cm]{Closed loop.png}
+    \caption{Closed Loop Transfer Function}
+    \label{fig:Closed Loop Transfer Function.png}
+\end{figure}
+The transfer function in part 2 appears to be unstable do to its negative poles, therefore making it not a decaying function.
+The plot for the second part of the lab proves this since it 
+\newpage
+\section{Questions}
+\textbf{1. In Part 1 Task 5, why does convolving the factored terms using scipy.signal.convolve()
+result in the expanded form of the numerator and denominator? Would this work with your
+user-defined convolution function from Lab 3? Why or why not?}\newline
+The convolution will not simply be multiplied in the S domain using the user defined function however this is what happens when using the scip.signal.convolve. \newline \newline
+
+\textbf{2. Discuss the difference between the open- and closed-loop systems from Part 1 and Part 2.
+How does stability differ for each case, and why?}\newline
+The closed loop system is stable since it goes to zero whereas the open system is not stable since it proceeds to infinity. The feedback loop is responsible for this since it forces the function to decay. \newline \newline
+
+\textbf{3. What is the difference between scipy.signal.residue() used in Lab 6 and
+scipy.signal.tf2zpk() used in this lab?
+}\newline
+Opposed to the residue function performing partial fraction expansion the new function tf2zpk returns the zero and pole values of a function.\newline \newline
+\textbf{4. Is it possible for an open-loop system to be stable? What about for a closed-loop system to
+be unstable? Explain how or how not for each.}\newline
+A open loop system may become stable if in a case it has no negative roots, a closed loop may become unstable if the opposite occurs. 
+\newline
+
+\section{Conclusion}
+Once again this lab proves how useful Python can be for solving complex equations for this lab it was quite useful in proving a very complicated transfer function. This lab also served as practice in solving block diagrams with the use of multiple transfer functions to obtain a completed transfer function for the entire system. 
+\newpage
+
+
+
+\end{document}
+
